@@ -1,0 +1,53 @@
+<!doctype html>
+
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <title>Calculator</title>
+    <meta name="description" content="A JavaScript Calculator">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+
+  <body>
+    <main>
+      <div class="calc">
+        <div class="calc-display">
+          <div class="calc-display__equation"></div>
+          <div class="calc-display__result"></div>
+        </div>
+
+        <div class="calc-keypad">
+          <button class="calc-keypad__action" data-action="clear">AC</button>
+          <button class="calc-keypad__action calc-keypad--double-width" data-action="save">Save</button>
+          <button class="calc-keypad__operator" data-operator="divide">&divide;</button>
+          
+          <button class="calc-keypad__decimal" data-decimal>.</button>
+          <button class="calc-keypad__number">0</button>
+          <button class="calc-keypad__number" disabled></button>
+          <button class="calc-keypad__operator" data-operator="multiply">&times;</button>
+          
+          <button class="calc-keypad__number">1</button>
+          <button class="calc-keypad__number">2</button>
+          <button class="calc-keypad__number">3</button>
+          <button class="calc-keypad__operator" data-operator="subtract">&minus;</button>
+
+          <button class="calc-keypad__number">4</button>
+          <button class="calc-keypad__number">5</button>
+          <button class="calc-keypad__number">6</button>
+          <button class="calc-keypad__operator" data-operator="add">+</button>
+
+          <button class="calc-keypad__number">7</button>
+          <button class="calc-keypad__number">8</button>
+          <button class="calc-keypad__number">9</button>
+          <button class="calc-keypad__operator" data-operator="equals">=</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>Dan Warman</p>
+    </footer>
+
+    <script src="./js/app.bundle.js"></script>
+  </body>
+</html>
