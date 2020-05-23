@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prebuild": "[ -d public/js ] || mkdir -p public/js && [ -d public/css ] || mkdir -p public/css && cp src/index.html public/",
+    "babel": "babel --presets es2015 src/js/app.js -o public/js/app.bundle.js",
+    "server:dev": "http-server -p 7000",
+    "start:dev": "npm run prebuild && npm run babel && npm run server:dev",
+    "start:prod": ""
   },
   "repository": {
     "type": "git",
