@@ -1,0 +1,25 @@
+/*
+ * Landing page
+ */
+
+.calc {
+  max-width: $calc-max-width;
+  margin: 0 auto;
+
+  .calc-display {
+    @include calc-display(
+      $display-bg-color,
+      $display-equation-font-color,
+      $display-result-font-color
+    );
+  }
+
+  .calc-keypad {
+    @include keypad(
+      $keypad-spacer-bg-color,
+      $btn-action-bg-color,
+      $btn-operator-bg-color,
+      $btn-number-bg-color
+    );
+  }
+}

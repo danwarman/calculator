@@ -1,0 +1,59 @@
+/*
+ * Mixins
+ */
+
+/* Calculator Display */
+@mixin calc-display($bg-color, $equation-font-color, $result-font-color) {
+  padding: 25px 35px;
+  box-sizing: border-box;
+  background-color: $bg-color;
+  text-align: right;
+
+  @include display-equation($equation-font-color);
+  @include display-result($result-font-color);
+}
+
+@mixin display-equation($font-color) {
+  &__equation {
+    height: 1.5em;
+    font-size: 1.5em;
+    color: $font-color;
+  }
+}
+
+@mixin display-result($font-color) {
+  &__result {
+    height: 1.5em;
+    font-size: 5em;
+    color: $font-color;
+  }
+}
+
+/* Calculator Keypad */
+@mixin keypad($spacer-bg-color, $action-bg-color, $operator-bg-color, $number-bg-color) {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 1px;
+  background-color: $spacer-bg-color;
+
+  &__action {
+    @include keypad-btn($action-bg-color);
+  }
+
+  &__operator {
+    @include keypad-btn($operator-bg-color);
+  }
+
+  &__number,
+  &__decimal {
+    @include keypad-btn($number-bg-color);
+  }
+
+  &--save {
+    grid-column: 2 / 4;
+  }
+}
+
+@mixin keypad-btn($bg-color) {
+  background-color: $bg-color;
+}
