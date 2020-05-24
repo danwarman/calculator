@@ -14,6 +14,11 @@ module.exports = {
     },
     mode: 'development',
     devtool: 'source-map',
+    watch: true,
+    watchOptions: {
+      aggregateTimeout: 1000,
+      ignored: /node_modules/
+    },
     devServer: {
       contentBase: path.resolve(__dirname, '../src'),
       watchContentBase: true,
@@ -47,9 +52,7 @@ module.exports = {
           test: /\.(sc|sa|c)ss$/,
           use: [
             'style-loader',
-            {
-              loader: MiniCssExtractPlugin.loader,
-            },
+            MiniCssExtractPlugin.loader,
             'css-loader',
             {
               loader: 'postcss-loader',

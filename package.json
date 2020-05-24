@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start:dev": "webpack-dev-server --config ./config/webpack.config.dev.js --mode development",
-    "build:prod": ""
+    "build:dev": "webpack --config ./config/webpack.config.dev.js --mode development",
+    "build:prod": "webpack --config ./config/webpack.config.prod.js --mode production"
   },
   "repository": {
     "type": "git",
