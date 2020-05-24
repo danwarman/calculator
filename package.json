@@ -2,14 +2,10 @@
   "name": "calculator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "prebuild": "[ -d public/js ] || mkdir -p public/js && [ -d public/css ] || mkdir -p public/css && cp src/index.html public/",
-    "webpack:dev": "webpack --config ./config/webpack.config.js --mode development",
-    "webpack:prod": "webpack --config ./config/webpack.config.js --mode production",
-    "server:dev": "http-server -p 7000",
-    "start:dev": "npm run prebuild && run-p webpack:dev server:dev",
-    "start:prod": ""
+    "start:dev": "webpack-dev-server --config ./config/webpack.config.dev.js --mode development",
+    "build:prod": ""
   },
   "repository": {
     "type": "git",
@@ -21,16 +17,23 @@
     "url": "https://github.com/danwarman/calculator/issues"
   },
   "homepage": "https://github.com/danwarman/calculator#readme",
-  "dependencies": {
-    "@babel/cli": "^7.8.4",
+  "dependencies": {},
+  "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
+    "autoprefixer": "^9.8.0",
     "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.5.3",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.3.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
-  },
-  "devDependencies": {
-    "http-server": "^0.12.3",
-    "npm-run-all": "^4.1.5"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   }
 }
