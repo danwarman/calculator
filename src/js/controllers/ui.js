@@ -6,7 +6,9 @@
 
 import {
   getKeyType,
-  getKeyContent
+  getKeyContent,
+  resultContainsDecimal,
+  equationContainsDecimal
 } from '../helpers/keyData';
 
 // For each input, check the keyType to determine how to handle the display
@@ -23,7 +25,8 @@ export const handleDisplay = (
 
   // Deconstruct state
   const {
-    previousKeyType
+    previousKeyType,
+    operatorAction
   } = state;
 
   // < TESTING
@@ -84,43 +87,11 @@ export const handleDisplay = (
   if (keyType === 'decimal') {
     // If current UI result contains a decimal already
       // Do nothing
-
-    // TO MOVE
-    const resultContainsDecimal = (result) => {
-      return !!result.includes('.');
-    };
-
     if (resultContainsDecimal(uiResult)) return;
 
     // If current UI equation contains decimal is last part of equation eg (5 + 6.2)
     // Do nothing
-
-    // TO MOVE
-    const getOperatorSymbol = (operatorAction) => {
-      if (!operatorAction) return '';
-
-      if (operatorAction === 'divide') return '÷';
-      if (operatorAction === 'multiply') return '×';
-      if (operatorAction === 'subtract') return '−';
-      if (operatorAction === 'add') return '+';
-      if (operatorAction === 'equals') return '=';
-    };
-
-    // TO MOVE
-    const equationContainsDecimal = (equation, operatorAction) => {
-      if (!operatorAction) return;
-
-      // Get symbol for last used operator
-      const operatorSymbol = getOperatorSymbol(operatorAction);
-      // Get index of last used operator symbol
-      const startIndex = equation.lastIndexOf(operatorSymbol);
-      // Slice string to leave latter part for checking eg. '+ 5'
-      const stringChunk = equation.slice(startIndex);
-
-      return !!stringChunk.includes('.');
-    };
-
-    if (equationContainsDecimal(uiEquation)) return;
+    if (equationContainsDecimal(uiEquation, operatorAction)) return;
 
     // If previous key was number
       // UI result: UI result + key content ('x.')
