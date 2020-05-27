@@ -44,6 +44,7 @@
     @include keypad-btn($operator-bg-color);
   }
 
+  &__blank,
   &__number,
   &__decimal {
     @include keypad-btn($number-bg-color);

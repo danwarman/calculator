@@ -26,7 +26,6 @@ const state = {
 
 keys.addEventListener('click', (e) => {
   const key = e.target;
-
   const uiResult = getDisplayResult();
   const uiEquation = getDisplayEquation();
 
@@ -55,7 +54,4 @@ keys.addEventListener('click', (e) => {
 
   // 5. Update UI for 'display equation'
   updateDisplayEquation(newEquation);
-
-  // 6. Update UI for 'keypad state'
-
 });
