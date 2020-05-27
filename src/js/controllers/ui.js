@@ -40,7 +40,7 @@ export const handleDisplay = (
 
   // Store result data: `.result`, `.equation`
   const data = {
-    result: '',
+    result: 0,
     equation: ''
   };
 
@@ -194,17 +194,18 @@ export const handleDisplay = (
   };
 
   // Type is clear
-  if (keyType === 'clear') {
     // UI result: 0
     // UI equation: ''
-  };
+  if (keyType === 'clear') return data;
 
   // Type is save
   if (keyType === 'save') {
     // Save result
+    // TODO
 
     // UI result: 0
     // UI equation: ''
+    return data;
   };
 
   // TODO
