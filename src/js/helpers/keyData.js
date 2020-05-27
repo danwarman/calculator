@@ -13,6 +13,13 @@ export const getKeyContent = (key) => {
   return key.textContent;
 };
 
+export const getOperatorAction = (key) => {
+  if (!key) return '';
+  const { dataset } = key;
+
+  return dataset.operator;
+};
+
 export const getOperatorSymbol = (operatorAction) => {
   if (!operatorAction) return '';
 
