@@ -122,9 +122,7 @@ export const handleDisplay = (
       // else
         // UI result: UI result
         // UI equation: UI equation + key content (operator symbol)
-    if (
-      previousKeyType === 'number'
-    ) {
+    if (previousKeyType === 'number') {
       if (
         firstValue &&
         operatorAction
@@ -142,9 +140,7 @@ export const handleDisplay = (
       // else
         // UI result: UI result - decimal
         // UI equation: UI equation - decimal + key content (operator symbol)
-    if (
-      previousKeyType === 'decimal'
-    ) {
+    if (previousKeyType === 'decimal') {
       if (
         firstValue &&
         operatorAction
@@ -159,18 +155,14 @@ export const handleDisplay = (
     // If previous key was operator
       // UI result: UI result
       // UI equation: UI equation - previous key content (operator symbol) + key content (operator symbol)
-    if (
-      previousKeyType === 'operator'
-    ) {
+    if (previousKeyType === 'operator') {
       data.result = uiResult;
       data.equation = uiEquation.slice(0, -1) + keyContent;
     };
     // If previous key was equals
       // UI result: UI result
       // UI equation: UI result + key content (operator symbol)
-    if (
-      previousKeyType === 'equals'
-    ) {
+    if (previousKeyType === 'equals') {
       data.result = uiResult;
       data.equation = uiResult + keyContent;
     };
@@ -182,9 +174,7 @@ export const handleDisplay = (
       // If previous key was number
         // UI result: Calculated Result
         // UI equation: UI equation + key content (= symbol)
-      if (
-        previousKeyType === 'number'
-      ) {
+      if (previousKeyType === 'number') {
         data.result = simpleCalculation(firstValue, operatorAction, uiResult);
         data.equation = uiEquation + keyContent;
       };
@@ -192,20 +182,24 @@ export const handleDisplay = (
       // If previous key was decimal
         // UI result: Calculated Result
         // UI equation: UI equation - previous key content (decimal symbol) + key content (= symbol)
-      if (
-        previousKeyType === 'decimal'
-      ) {
+      if (previousKeyType === 'decimal') {
         data.result = simpleCalculation(firstValue, operatorAction, uiResult);
         data.equation = uiEquation.slice(0, -1) + keyContent;
       };
-      // If previous key was operator or equals
+
+      // If previous key was operator
         // UI result: Calculated Result
         // UI equation: UI equation + key content (= symbol)
-      if (
-        previousKeyType === 'operator',
-        previousKeyType === 'equals'
-      ) {
-        data.result = simpleCalculation(firstValue, operatorAction, modifiedSecondValue);
+      if (previousKeyType === 'operator') {
+        data.result = simpleCalculation(firstValue, operatorAction, uiResult);
+        data.equation = uiEquation.slice(0, -1) + keyContent;
+      }
+
+      // If previous key was equals
+        // UI result: Calculated Result
+        // UI equation: UI equation + key content (= symbol)
+      if (previousKeyType === 'equals') {
+        data.result = simpleCalculation(uiResult, operatorAction, modifiedSecondValue);
         data.equation = uiEquation + keyContent;
       };
     } else {

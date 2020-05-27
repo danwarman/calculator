@@ -39,7 +39,6 @@
 
     const newState = currentState;
     const keyType = getKeyType(key);
-    const keyAction = getOperatorAction(key);
 
     // Always set previousKeyType to that of current input
     newState.previousKeyType = keyType;
@@ -47,7 +46,7 @@
     // Type is operator
     if (keyType === 'operator') {
       // Set current operator action ('divide', 'multiply', 'subtract', 'add') to state
-      newState.operatorAction = keyAction;
+      newState.operatorAction = getOperatorAction(key);
 
       // Update new firstValue
         // If current firstValue is not empty &&
@@ -70,10 +69,10 @@
     if (keyType === 'equals') {
       // Update new modifiedSecondValue
         // If current firstValue is not empty &&
-        // If previous key is not equals    
+        // If previous key is not equals
       if (
         firstValue &&
-        previousKeyType !== 'equals'
+        previousKeyType === 'equals'
       ) {
         // new modifiedSecondValue = current modifiedSecondValue
         newState.modifiedSecondValue = modifiedSecondValue;
