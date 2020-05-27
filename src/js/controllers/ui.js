@@ -4,6 +4,11 @@
 // handleDisplay()
 // handleKeypad()
 
+import {
+  getKeyType,
+  getKeyContent
+} from '../helpers/keyData';
+
 // For each input, check the keyType to determine how to handle the display
 // key content = value of current key
 
@@ -13,6 +18,9 @@ export const handleDisplay = (
   uiEquation,
   state
 ) => {
+  const keyType = getKeyType(key);
+  const keyContent = getKeyContent(key);
+
   // Type is number
     // If the current UI result is 0 - it's the first input
       // UI result: key content eg. 5
