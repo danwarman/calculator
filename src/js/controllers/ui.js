@@ -87,15 +87,15 @@ export const handleDisplay = (
   if (keyType === 'decimal') {
     // If current UI result contains a decimal already
       // Do nothing
-    if (resultContainsDecimal(uiResult)) return;
+    if (resultContainsDecimal(uiResult)) return data;
 
     // If current UI equation contains decimal is last part of equation eg (5 + 6.2)
     // Do nothing
-    if (equationContainsDecimal(uiEquation, operatorAction)) return;
+    if (equationContainsDecimal(uiEquation, operatorAction)) return data;
 
     // If previous key was number
-      // UI result: UI result + key content ('x.')
-      // UI equation: UI equation + key content ('x.')
+    // UI result: UI result + key content ('x.')
+    // UI equation: UI equation + key content ('x.')
     if (previousKeyType === 'number') {
       data.result = uiResult + keyContent;
       data.equation = uiEquation + keyContent;
@@ -121,15 +121,40 @@ export const handleDisplay = (
     // If previous key was number
       // UI result: UI result
       // UI equation: UI equation + key content (operator symbol)
+    if (
+      previousKeyType === 'number'
+    ) {
+      data.result = uiResult;
+      data.equation = uiEquation + keyContent;
+    };
     // If previous key was decimal
       // UI result: UI result - decimal
       // UI equation: UI equation - decimal + key content (operator symbol)
+    if (
+      previousKeyType === 'decimal'
+    ) {
+      data.result = uiResult.slice(0, -1);
+      data.equation = uiEquation.slice(0, -1) + keyContent;
+    };
+
     // If previous key was operator
       // UI result: UI result
       // UI equation: UI equation - previous key content (operator symbol) + key content (operator symbol)
+    if (
+      previousKeyType === 'operator'
+    ) {
+      data.result = uiResult;
+      data.equation = uiEquation.slice(0, -1) + keyContent;
+    };
     // If previous key was equals
       // UI result: UI result
       // UI equation: UI result + key content (operator symbol)
+    if (
+      previousKeyType === 'equals'
+    ) {
+      data.result = uiResult;
+      data.equation = uiResult + keyContent;
+    };
   };
 
   // Type is equals
