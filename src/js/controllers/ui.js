@@ -82,34 +82,39 @@ export const handleDisplay = (
 
   // Type is decimal
   if (keyType === 'decimal') {
+    // If previous key was set
+      // UI result: '0' + key content ('0.')
+      // UI equation: '0' + key content ('0.')
+    if (!previousKeyType) {
+      data.result = '0' + keyContent;
+      data.equation = '0' + keyContent;
+    };
+
     // If current UI result contains a decimal already
       // Do nothing
     if (resultContainsDecimal(uiResult)) return data;
 
     // If current UI equation contains decimal is last part of equation eg (5 + 6.2)
-    // Do nothing
+      // Do nothing
     if (equationContainsDecimal(uiEquation, operatorAction)) return data;
 
     // If previous key was number
-    // UI result: UI result + key content ('x.')
-    // UI equation: UI equation + key content ('x.')
+      // UI result: UI result + key content ('x.')
+      // UI equation: UI equation + key content ('x.')
     if (previousKeyType === 'number') {
       data.result = uiResult + keyContent;
       data.equation = uiEquation + keyContent;
     };
 
-    // If previous key was operator
+    // If previous key was operator or equals
       // UI result: '0' + key content ('0.')
-      // UI equation: '0' + key content ('0.')
-    // If previous key was equals - reset for new calculation
-      // UI result: '0' + key content ('0.')
-      // UI equation: '0' + key content ('0.')
+      // UI equation: UI equation + '0' + key content ('0.')
     if (
       previousKeyType === 'operator' ||
       previousKeyType === 'equals'
     ) {
       data.result = '0' + keyContent;
-      data.equation = '0' + keyContent;
+      data.equation = uiEquation + '0' + keyContent;
     };
   };
 
