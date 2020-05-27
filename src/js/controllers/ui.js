@@ -21,20 +21,60 @@ export const handleDisplay = (
   const keyType = getKeyType(key);
   const keyContent = getKeyContent(key);
 
+  // Deconstruct state
+  const {
+    previousKeyType
+  } = state;
+
+  // < TESTING
+  console.log('ui-c | key:', key);
+  console.log('ui-c | uiResult:', uiResult);
+  console.log('ui-c | uiEquation:', uiEquation);
+  console.log('ui-c | state:', state);
+  console.log('ui-c | keyType:', keyType);
+  console.log('ui-c | keyContent:', keyContent);
+  // TESTING >
+
+  // Store result data: `.result`, `.equation`
+  const data = {};
+
   // Type is number
   if (keyType === 'number') {
-    // If the current UI result is 0 - it's the first input
+    if (
+      uiResult == '0' ||
+      previousKeyType === 'operator' ||
+      previousKeyType === 'equals'
+    ) {
+      // If the current UI result is 0 - it's the first input
       // UI result: key content eg. 5
       // UI equation: key content eg. 5
-    // If previous key was operator
-      // UI result: key content eg. 2
-      // UI equation: UI equation + key content eg. 5 + 2
-    // If previous key was equals - reset for new calculation
-      // UI result: key content
-      // UI equation: key content
-    // If none of the above (previousKey was number or decimal):
+      if (uiResult == '0') {
+        data.result = keyContent;
+        data.equation = keyContent;
+      };
+
+      // If previous key was operator
+        // UI result: key content eg. 2
+        // UI equation: UI equation + key content eg. 5 + 2
+      if (previousKeyType === 'operator') {
+        data.result = keyContent;
+        data.equation = uiEquation + keyContent;
+      };
+
+      // If previous key was equals - reset for new calculation
+        // UI result: key content
+        // UI equation: key content
+      if (previousKeyType === 'equals') {
+        data.result = '';
+        data.equation = '';
+      };
+    } else {
+      // If none of the above (previousKey was number or decimal):
       // UI result: UI result + key content eg. 28
       // UI equation: UI equation + key content eg. 5 + 28
+      data.result = uiResult + keyContent;
+      data.equation = uiEquation + keyContent;
+    };
   };
 
   // Type is decimal
@@ -99,8 +139,5 @@ export const handleDisplay = (
   };
 
   // TODO
-  return {
-    'result': '',
-    'equation': ''
-  };
+  return data;
 };

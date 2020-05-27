@@ -27,6 +27,9 @@ keys.addEventListener('click', (e) => {
   const uiResult = getDisplayResult();
   const uiEquation = getDisplayEquation();
 
+  console.log('uiResult:', uiResult);
+  console.log('uiEquation:', uiEquation);
+
   // 1. Determine 'display result' of key input
   // 2. Determine 'display equation' of key input
   const newResultData = handleDisplay(
@@ -35,6 +38,8 @@ keys.addEventListener('click', (e) => {
     uiEquation,
     state
   );
+  console.log('newResultData:', newResultData);
+
   const newResult = newResultData.result;
   const newEquation = newResultData.equation;
 
