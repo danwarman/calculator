@@ -22,6 +22,7 @@ export const handleDisplay = (
   const keyContent = getKeyContent(key);
 
   // Type is number
+  if (keyType === 'number') {
     // If the current UI result is 0 - it's the first input
       // UI result: key content eg. 5
       // UI equation: key content eg. 5
@@ -34,8 +35,10 @@ export const handleDisplay = (
     // If none of the above (previousKey was number or decimal):
       // UI result: UI result + key content eg. 28
       // UI equation: UI equation + key content eg. 5 + 28
+  };
 
   // Type is decimal
+  if (keyType === 'decimal') {
     // If current UI result contains a decimal already
       // Do nothing
     // If current UI equation contains decimal is last part of equation eg (5 + 6.2)
@@ -50,8 +53,10 @@ export const handleDisplay = (
     // If previous key was equals - reset for new calculation
       // UI result: '0' + key content ('0.')
       // UI equation: '0' + key content ('0.')
+  };
 
   // Type is operator
+  if (keyType === 'operator') {
     // If previous key was number
       // UI result: UI result
       // UI equation: UI equation + key content (operator symbol)
@@ -64,22 +69,36 @@ export const handleDisplay = (
     // If previous key was equals
       // UI result: UI result
       // UI equation: UI result + key content (operator symbol)
-
-  // Type is clear
-    // UI result: 0
-    // UI equation: ''
+  };
 
   // Type is equals
+  if (keyType === 'equals') {
     // If previous key was number
-      // UI result: Calculated Result
-      // UI equation: UI equation + key content (= symbol)
+    // UI result: Calculated Result
+    // UI equation: UI equation + key content (= symbol)
     // If previous key was decimal
-      // UI result: Calculated Result
-      // UI equation: UI equation - previous key content (decimal symbol) + key content (= symbol)
+    // UI result: Calculated Result
+    // UI equation: UI equation - previous key content (decimal symbol) + key content (= symbol)
     // If previous key was operator or equals
-      // UI result: Calculated Result
-      // UI equation: UI equation + key content (= symbol)
+    // UI result: Calculated Result
+    // UI equation: UI equation + key content (= symbol)
+  };
 
+  // Type is clear
+  if (keyType === 'clear') {
+    // UI result: 0
+    // UI equation: ''
+  };
+
+  // Type is save
+  if (keyType === 'save') {
+    // Save result
+
+    // UI result: 0
+    // UI equation: ''
+  };
+
+  // TODO
   return {
     'result': '',
     'equation': ''
