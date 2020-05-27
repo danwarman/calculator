@@ -56,4 +56,10 @@
 
 @mixin keypad-btn($bg-color) {
   background-color: $bg-color;
+  transition: 0.5s ease-in-out;
+
+  &:active {
+    background-color: lighten($bg-color, 10%);
+    transition: 0.2s ease-in-out;
+  }
 }
