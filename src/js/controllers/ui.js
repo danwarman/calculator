@@ -35,15 +35,6 @@ export const handleDisplay = (
     modifiedSecondValue
   } = state;
 
-  // < TESTING
-  console.log('ui-c | key:', key);
-  console.log('ui-c | uiResult:', uiResult);
-  console.log('ui-c | uiEquation:', uiEquation);
-  console.log('ui-c | state:', state);
-  console.log('ui-c | keyType:', keyType);
-  console.log('ui-c | keyContent:', keyContent);
-  // TESTING >
-
   // Store result data: `.result`, `.equation`
   const data = {
     result: 0,
@@ -125,21 +116,43 @@ export const handleDisplay = (
   // Type is operator
   if (keyType === 'operator') {
     // If previous key was number
-      // UI result: UI result
-      // UI equation: UI equation + key content (operator symbol)
+      // firstValue && operatorAction set - indicate multiple operators
+        // UI result: calculation(firstValue, operatorAction, UI result)
+        // UI equation: UI equation + key content (operator symbol)
+      // else
+        // UI result: UI result
+        // UI equation: UI equation + key content (operator symbol)
     if (
       previousKeyType === 'number'
     ) {
-      data.result = uiResult;
+      if (
+        firstValue &&
+        operatorAction
+      ) {
+        data.result = simpleCalculation(firstValue, operatorAction, uiResult);
+      } else {
+        data.result = uiResult;
+      }
       data.equation = uiEquation + keyContent;
     };
     // If previous key was decimal
-      // UI result: UI result - decimal
-      // UI equation: UI equation - decimal + key content (operator symbol)
+      // firstValue && operatorAction set - indicate multiple operators
+        // UI result: calculation(firstValue, operatorAction, UI result)
+        // UI equation: UI equation - decimal + key content (operator symbol)
+      // else
+        // UI result: UI result - decimal
+        // UI equation: UI equation - decimal + key content (operator symbol)
     if (
       previousKeyType === 'decimal'
     ) {
-      data.result = uiResult.slice(0, -1);
+      if (
+        firstValue &&
+        operatorAction
+      ) {
+        data.result = simpleCalculation(firstValue, operatorAction, uiResult.slice(0, -1));
+      } else {
+        data.result = uiResult.slice(0, -1);
+      }
       data.equation = uiEquation.slice(0, -1) + keyContent;
     };
 

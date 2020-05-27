@@ -41,14 +41,6 @@
     const keyType = getKeyType(key);
     const keyAction = getOperatorAction(key);
 
-    // < TESTING
-    console.log('st-c | key:', key);
-    console.log('st-c | uiResult:', uiResult);
-    console.log('st-c | newResult:', newResult);
-    console.log('st-c | currentState:', currentState);
-    console.log('st-c | keyType:', keyType);
-    // TESTING >
-
     // Always set previousKeyType to that of current input
     newState.previousKeyType = keyType;
 
@@ -82,9 +74,9 @@
       if (
         firstValue &&
         previousKeyType !== 'equals'
-        ) {
-          // new modifiedSecondValue = current modifiedSecondValue
-          newState.modifiedSecondValue = modifiedSecondValue;
+      ) {
+        // new modifiedSecondValue = current modifiedSecondValue
+        newState.modifiedSecondValue = modifiedSecondValue;
       } else {
         // new modifiedSecondValue = current UI result
         newState.modifiedSecondValue = uiResult;
