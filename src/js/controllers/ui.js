@@ -11,6 +11,10 @@ import {
   equationContainsDecimal
 } from '../helpers/keyData';
 
+import {
+  simpleCalculation
+} from '../models/ui';
+
 // For each input, check the keyType to determine how to handle the display
 // key content = value of current key
 
@@ -26,7 +30,9 @@ export const handleDisplay = (
   // Deconstruct state
   const {
     previousKeyType,
-    operatorAction
+    operatorAction,
+    firstValue,
+    modifiedSecondValue
   } = state;
 
   // < TESTING
@@ -159,37 +165,40 @@ export const handleDisplay = (
 
   // Type is equals
   if (keyType === 'equals') {
-    // If previous key was number
-      // UI result: Calculated Result
-      // UI equation: UI equation + key content (= symbol)
-    if (
-      previousKeyType === 'number'
-    ) {
-      // TODO
-      data.result = 'TODO: CalculatedResult';
-      data.equation = uiEquation + keyContent;
-    };
+    if (firstValue) {
+      // If previous key was number
+        // UI result: Calculated Result
+        // UI equation: UI equation + key content (= symbol)
+      if (
+        previousKeyType === 'number'
+      ) {
+        data.result = simpleCalculation(firstValue, operatorAction, uiResult);
+        data.equation = uiEquation + keyContent;
+      };
 
-    // If previous key was decimal
-      // UI result: Calculated Result
-      // UI equation: UI equation - previous key content (decimal symbol) + key content (= symbol)
-    if (
-      previousKeyType === 'decimal'
-    ) {
-      // TODO
-      data.result = 'TODO: CalculatedResult';
-      data.equation = uiEquation.slice(0, -1) + keyContent;
-    };
-    // If previous key was operator or equals
-      // UI result: Calculated Result
-      // UI equation: UI equation + key content (= symbol)
-    if (
-      previousKeyType === 'operator',
-      previousKeyType === 'equals'
-    ) {
-      // TODO
-      data.result = 'TODO: CalculatedResult';
-      data.equation = uiEquation + keyContent;
+      // If previous key was decimal
+        // UI result: Calculated Result
+        // UI equation: UI equation - previous key content (decimal symbol) + key content (= symbol)
+      if (
+        previousKeyType === 'decimal'
+      ) {
+        data.result = simpleCalculation(firstValue, operatorAction, uiResult);
+        data.equation = uiEquation.slice(0, -1) + keyContent;
+      };
+      // If previous key was operator or equals
+        // UI result: Calculated Result
+        // UI equation: UI equation + key content (= symbol)
+      if (
+        previousKeyType === 'operator',
+        previousKeyType === 'equals'
+      ) {
+        data.result = simpleCalculation(firstValue, operatorAction, modifiedSecondValue);
+        data.equation = uiEquation + keyContent;
+      };
+    } else {
+      // If firstValue is not set (req. for calc)
+        data.result = uiResult;
+        data.equation = uiEquation;
     };
   };
 
@@ -208,6 +217,5 @@ export const handleDisplay = (
     return data;
   };
 
-  // TODO
   return data;
 };
