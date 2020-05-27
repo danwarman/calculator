@@ -96,12 +96,24 @@ export const handleDisplay = (
     // If previous key was number
       // UI result: UI result + key content ('x.')
       // UI equation: UI equation + key content ('x.')
+    if (previousKeyType === 'number') {
+      data.result = uiResult + keyContent;
+      data.equation = uiEquation + keyContent;
+    };
+
     // If previous key was operator
       // UI result: '0' + key content ('0.')
       // UI equation: '0' + key content ('0.')
     // If previous key was equals - reset for new calculation
       // UI result: '0' + key content ('0.')
       // UI equation: '0' + key content ('0.')
+    if (
+      previousKeyType === 'operator' ||
+      previousKeyType === 'equals'
+    ) {
+      data.result = '0' + keyContent;
+      data.equation = '0' + keyContent;
+    };
   };
 
   // Type is operator
