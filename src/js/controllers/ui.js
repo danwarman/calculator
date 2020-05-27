@@ -160,14 +160,37 @@ export const handleDisplay = (
   // Type is equals
   if (keyType === 'equals') {
     // If previous key was number
-    // UI result: Calculated Result
-    // UI equation: UI equation + key content (= symbol)
+      // UI result: Calculated Result
+      // UI equation: UI equation + key content (= symbol)
+    if (
+      previousKeyType === 'number'
+    ) {
+      // TODO
+      data.result = 'TODO: CalculatedResult';
+      data.equation = uiEquation + keyContent;
+    };
+
     // If previous key was decimal
-    // UI result: Calculated Result
-    // UI equation: UI equation - previous key content (decimal symbol) + key content (= symbol)
+      // UI result: Calculated Result
+      // UI equation: UI equation - previous key content (decimal symbol) + key content (= symbol)
+    if (
+      previousKeyType === 'decimal'
+    ) {
+      // TODO
+      data.result = 'TODO: CalculatedResult';
+      data.equation = uiEquation.slice(0, -1) + keyContent;
+    };
     // If previous key was operator or equals
-    // UI result: Calculated Result
-    // UI equation: UI equation + key content (= symbol)
+      // UI result: Calculated Result
+      // UI equation: UI equation + key content (= symbol)
+    if (
+      previousKeyType === 'operator',
+      previousKeyType === 'equals'
+    ) {
+      // TODO
+      data.result = 'TODO: CalculatedResult';
+      data.equation = uiEquation + keyContent;
+    };
   };
 
   // Type is clear
