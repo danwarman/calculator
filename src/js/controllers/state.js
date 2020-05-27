@@ -20,13 +20,14 @@
     // Key type: operator, equals, clear, save
 
   import {
-    getKeyType
+    getKeyType,
+    getOperatorAction
   } from '../helpers/keyData';
 
   export const handleCalculatorState = (
     key,
     uiResult,
-    uiEquation,
+    newResult,
     currentState
   ) => {
     const {
@@ -43,7 +44,7 @@
     // < TESTING
     console.log('st-c | key:', key);
     console.log('st-c | uiResult:', uiResult);
-    console.log('st-c | uiEquation:', uiEquation);
+    console.log('st-c | newResult:', newResult);
     console.log('st-c | currentState:', currentState);
     console.log('st-c | keyType:', keyType);
     // TESTING >
@@ -60,23 +61,42 @@
         // If current firstValue is not empty &&
         // If previous key is not operator &&
         // If previous key is not equals
-          // new firstValue = calculated result
-        // Else
-          // new firstValue = current UI result
+      if (
+        firstValue &&
+        previousKeyType !== 'operator' &&
+        previousKeyType !== 'equals'
+      ) {
+        // new firstValue = calculated result
+        newState.firstValue = newResult;
+      } else {
+        // new firstValue = current UI result
+        newState.firstValue = uiResult;
+      };
     };
 
     // Type is equals
     if (keyType === 'equals') {
       // Update new modifiedSecondValue
         // If current firstValue is not empty &&
-        // If previous key is not equals
+        // If previous key is not equals    
+      if (
+        firstValue &&
+        previousKeyType !== 'equals'
+        ) {
           // new modifiedSecondValue = current modifiedSecondValue
-        // Else
-          // new modifiedSecondValue = current UI result
+          newState.modifiedSecondValue = modifiedSecondValue;
+      } else {
+        // new modifiedSecondValue = current UI result
+        newState.modifiedSecondValue = uiResult;
+      };
     };
 
     // Type is clear or save
     if (keyType === 'clear' || keyType === 'save') {
       // Set all properties to empty
+      newState.firstValue = '';
+      newState.modifiedSecondValue = '';
+      newState.operatorAction = '';
+      newState.previousKeyType = '';
     };
 };
