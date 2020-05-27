@@ -11,7 +11,11 @@ import {
 
 import {
   handleDisplay
-} from './controllers/ui'
+} from './controllers/ui';
+
+import {
+  handleCalculatorState
+} from './controllers/state';
 
 const state = {
   firstValue: '',
@@ -44,6 +48,12 @@ keys.addEventListener('click', (e) => {
   const newEquation = newResultData.equation;
 
   // 3. Update state of calculator to allow for subsequent events
+  handleCalculatorState(
+    key,
+    uiResult,
+    uiEquation,
+    state
+  );
 
   // 4. Update UI for 'display result'
   updateDisplayResult(newResult);

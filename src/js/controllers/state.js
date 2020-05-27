@@ -19,7 +19,36 @@
   //  State change only needs to occur when a calculation is to be made or reset
     // Key type: operator, equals, clear, save
 
+  import {
+    getKeyType
+  } from '../helpers/keyData';
+
+  export const handleCalculatorState = (
+    key,
+    uiResult,
+    uiEquation,
+    currentState
+  ) => {
+    const {
+      previousKeyType,
+      operatorAction,
+      firstValue,
+      modifiedSecondValue
+    } = currentState;
+
+    const newState = currentState;
+    const keyType = getKeyType(key);
+
+    // < TESTING
+    console.log('st-c | key:', key);
+    console.log('st-c | uiResult:', uiResult);
+    console.log('st-c | uiEquation:', uiEquation);
+    console.log('st-c | currentState:', currentState);
+    console.log('st-c | keyType:', keyType);
+    // TESTING >
+
     // Type is operator
+    if (keyType === 'operator') {
       // Set current operator action ('divide', 'multiply', 'subtract', 'add') to state
 
       // Update new firstValue
@@ -29,15 +58,20 @@
           // new firstValue = calculated result
         // Else
           // new firstValue = current UI result
+    };
 
     // Type is equals
+    if (keyType === 'equals') {
       // Update new modifiedSecondValue
         // If current firstValue is not empty &&
         // If previous key is not equals
           // new modifiedSecondValue = current modifiedSecondValue
         // Else
           // new modifiedSecondValue = current UI result
+    };
 
-    // Type is clear
+    // Type is clear or save
+    if (keyType === 'clear' || keyType === 'save') {
       // Set all properties to empty
-
+    };
+};
