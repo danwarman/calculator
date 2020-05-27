@@ -38,6 +38,7 @@
 
     const newState = currentState;
     const keyType = getKeyType(key);
+    const keyAction = getOperatorAction(key);
 
     // < TESTING
     console.log('st-c | key:', key);
@@ -47,9 +48,13 @@
     console.log('st-c | keyType:', keyType);
     // TESTING >
 
+    // Always set previousKeyType to that of current input
+    newState.previousKeyType = keyType;
+
     // Type is operator
     if (keyType === 'operator') {
       // Set current operator action ('divide', 'multiply', 'subtract', 'add') to state
+      newState.operatorAction = keyAction;
 
       // Update new firstValue
         // If current firstValue is not empty &&
