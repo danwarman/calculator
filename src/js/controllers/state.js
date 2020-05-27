@@ -1,93 +1,72 @@
-// 3. Update state of calculator to allow for subsequent events
+import {
+  getKeyType,
+  getOperatorAction
+} from '../helpers/keyData';
 
-// handleCalculatorState()
-  // Will handle the state of the calculator
+/**
+ * This function will update the state of
+ * the calculator to allow for subsequent events
+ *
+ * @param {Object} key - 'key' DOM element
+ * @param {string} uiResult - Current result displayed
+ * @param {string} newResult - Updated result
+ * @param {Object} currentState- Current state of calculator
+ */
+export const handleCalculatorState = (
+  key,
+  uiResult,
+  newResult,
+  currentState
+) => {
+  const {
+    previousKeyType,
+    firstValue,
+    modifiedSecondValue
+  } = currentState;
 
-  // State will contain values necessary for calculation
-  /**
-   * { firstValue: '', modifiedSecondValue: '', previousKeyType: '', operatorAction: ''}
-   *
-   * 'firstValue': number to be used when a simple calculation is to be made
-   *   eg. `5 + 6`. firstValue is '5'
-   * 'modifiedSecondValue': number to be used for chained calculations
-   *   eg. `20 + 5 =`. firstValue is '20', modifiedSecondValue is '5'.
-   *      if user again taps `=`: `20 + 5 ==`, calculation will be `(20+5)+5`
-   * 'previousKeyType': type of key pressed before this - 'operator', 'number', 'decimal', 'equals', ...
-   * 'operatorAction': most recent operator type - 'divide', 'multiply', 'subtract', 'add'
-   */
+  const newState = currentState;
+  const keyType = getKeyType(key);
 
-  //  State change only needs to occur when a calculation is to be made or reset
-    // Key type: operator, equals, clear, save
+  // Always set previousKeyType to that of current input
+  newState.previousKeyType = keyType;
 
-  import {
-    getKeyType,
-    getOperatorAction
-  } from '../helpers/keyData';
+  // Type is operator
+  if (keyType === 'operator') {
+    // Set current operator action: 'divide', 'multiply', 'subtract', 'add'
+    newState.operatorAction = getOperatorAction(key);
 
-  export const handleCalculatorState = (
-    key,
-    uiResult,
-    newResult,
-    currentState
-  ) => {
-    const {
-      previousKeyType,
-      operatorAction,
-      firstValue,
-      modifiedSecondValue
-    } = currentState;
-
-    const newState = currentState;
-    const keyType = getKeyType(key);
-
-    // Always set previousKeyType to that of current input
-    newState.previousKeyType = keyType;
-
-    // Type is operator
-    if (keyType === 'operator') {
-      // Set current operator action ('divide', 'multiply', 'subtract', 'add') to state
-      newState.operatorAction = getOperatorAction(key);
-
-      // Update new firstValue
-        // If current firstValue is not empty &&
-        // If previous key is not operator &&
-        // If previous key is not equals
-      if (
-        firstValue &&
-        previousKeyType !== 'operator' &&
-        previousKeyType !== 'equals'
-      ) {
-        // new firstValue = calculated result
-        newState.firstValue = newResult;
-      } else {
-        // new firstValue = current UI result
-        newState.firstValue = uiResult;
-      };
+    if (
+      firstValue &&
+      previousKeyType !== 'operator' &&
+      previousKeyType !== 'equals'
+    ) {
+      // for next calcuation should be new result eg. '3 x 5 x' => firstValue: '3' => '15'
+      newState.firstValue = newResult;
+    } else {
+      // use currently displayed result eg. '3 x' => firstValue: '3'
+      newState.firstValue = uiResult;
     };
+  };
 
-    // Type is equals
-    if (keyType === 'equals') {
-      // Update new modifiedSecondValue
-        // If current firstValue is not empty &&
-        // If previous key is not equals
-      if (
-        firstValue &&
-        previousKeyType === 'equals'
-      ) {
-        // new modifiedSecondValue = current modifiedSecondValue
-        newState.modifiedSecondValue = modifiedSecondValue;
-      } else {
-        // new modifiedSecondValue = current UI result
-        newState.modifiedSecondValue = uiResult;
-      };
+  // Type is equals
+  if (keyType === 'equals') {
+    if (
+      firstValue &&
+      previousKeyType === 'equals'
+    ) {
+      // for chained calcuation should repeat previous eg. '5 x 3 = =' => '5 x 3 x 3'
+      newState.modifiedSecondValue = modifiedSecondValue;
+    } else {
+      // for next calcuation should be current result eg. '5x3' => modifiedSecondValue: '3'
+      newState.modifiedSecondValue = uiResult;
     };
+  };
 
-    // Type is clear or save
-    if (keyType === 'clear' || keyType === 'save') {
-      // Set all properties to empty
-      newState.firstValue = '';
-      newState.modifiedSecondValue = '';
-      newState.operatorAction = '';
-      newState.previousKeyType = '';
-    };
+  // Type is clear or save - clear new state
+  if (keyType === 'clear' || keyType === 'save') {
+    newState.firstValue = '';
+    newState.modifiedSecondValue = '';
+    newState.operatorAction = '';
+    newState.previousKeyType = '';
+  };
 };

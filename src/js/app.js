@@ -29,8 +29,7 @@ keys.addEventListener('click', (e) => {
   const uiResult = getDisplayResult();
   const uiEquation = getDisplayEquation();
 
-  // 1. Determine 'display result' of key input
-  // 2. Determine 'display equation' of key input
+  // Determine 'display result' and 'display equation' of key input
   const newResultData = handleDisplay(
     key,
     uiResult,
@@ -41,7 +40,7 @@ keys.addEventListener('click', (e) => {
   const newResult = newResultData.result;
   const newEquation = newResultData.equation;
 
-  // 3. Update state of calculator to allow for subsequent events
+  // Update state of calculator to allow for subsequent events
   handleCalculatorState(
     key,
     uiResult,
@@ -49,9 +48,7 @@ keys.addEventListener('click', (e) => {
     state
   );
 
-  // 4. Update UI for 'display result'
+  // Update UI for 'display result' and 'display equation'
   updateDisplayResult(newResult);
-
-  // 5. Update UI for 'display equation'
   updateDisplayEquation(newEquation);
 });
