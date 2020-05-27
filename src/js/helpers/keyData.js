@@ -23,12 +23,12 @@ export const getOperatorSymbol = (operatorAction) => {
   if (operatorAction === 'equals') return '=';
 };
 
-export const stringContains = (string) => {
-  return !!string.includes('.');
+export const stringContains = (string, el) => {
+  return !!string.includes(el);
 };
 
 export const resultContainsDecimal = (result) => {
-  return stringContains(result);
+  return stringContains(result, '.');
 };
 
 export const equationContainsDecimal = (equation, operatorAction) => {
@@ -41,5 +41,5 @@ export const equationContainsDecimal = (equation, operatorAction) => {
   // Slice string to leave latter part for checking eg. '+ 5'
   const stringChunk = equation.slice(startIndex);
 
-  return stringContains(stringChunk);
+  return stringContains(stringChunk, '.');
 };
