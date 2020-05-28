@@ -29,6 +29,11 @@ img {
   max-width: 100%;
 }
 
+/* Make link text default font color */
+a {
+  color: initial;
+}
+
 /* Inherit fonts for buttons */
 button {
   border: none;
