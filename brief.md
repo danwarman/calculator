@@ -1,7 +1,7 @@
 # Brief
 
 ## Mockup
-[Calculator Mockup](calculator-mockup.png)
+![Calculator Mockup](calculator-mockup.png)
 
 ## Requirements
 
