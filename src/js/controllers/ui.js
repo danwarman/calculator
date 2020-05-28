@@ -41,39 +41,36 @@ export const handleDisplay = (
 
   // Type is number
   if (keyType === 'number') {
-    if (
-      uiResult == '0' ||
-      previousKeyType === 'operator' ||
-      previousKeyType === 'equals'
-    ) {
-      // First input
-      if (uiResult == '0') {
-        data.result = keyContent; // eg. 5
-        data.equation = keyContent; // eg. 5
-      };
-
-      if (previousKeyType === 'operator') {
-        data.result = keyContent; // eg. 2
-        data.equation = uiEquation + keyContent; //eg. 5 + 2
-      };
-
-      // Reset
-      if (previousKeyType === 'equals') {
-        data.result = '';
-        data.equation = '';
-      };
-    } else {
-      // If none of the above (previousKey was number or decimal):
-      data.result = uiResult + keyContent; //eg. 28
-      data.equation = uiEquation + keyContent; //eg. 5 + 28
+    // First input
+    if (uiResult == '0') return {
+      result: keyContent, // eg. 5
+      equation: keyContent // eg. 5
     };
+
+    if (previousKeyType === 'operator') return {
+      result: keyContent, // eg. 2
+      equation: uiEquation + keyContent //eg. 5 + 2
+    };
+
+    // Reset
+    if (previousKeyType === 'equals') return {
+      result: keyContent,
+      equation: ''
+    };
+
+    // If none of the above (previousKey was number or decimal):
+    return {
+      result: uiResult + keyContent, //eg. 28
+      equation: uiEquation + keyContent //eg. 5 + 28
+    }
   };
 
   // Type is decimal
   if (keyType === 'decimal') {
-    if (!previousKeyType) {
-      data.result = '0' + keyContent; // '0.'
-      data.equation = '0' + keyContent; // '0.'
+    // First input
+    if (!previousKeyType) return {
+      result: '0' + keyContent, // '0.'
+      equation: '0' + keyContent // '0.'
     };
 
     // Check if result already contains a decimal & do nothing
@@ -82,23 +79,26 @@ export const handleDisplay = (
     // Check if last part of equation already contains a decimal & do nothing
     if (equationContainsDecimal(uiEquation, operatorAction)) return data;
 
-    if (previousKeyType === 'number') {
-      data.result = uiResult + keyContent; // eg. '5.'
-      data.equation = uiEquation + keyContent; // eg. '5.'
+    if (previousKeyType === 'number') return {
+      result: uiResult + keyContent, // eg. '5.'
+      equation: uiEquation + keyContent // eg. '5.'
     };
 
     if (
       previousKeyType === 'operator' ||
       previousKeyType === 'equals'
-    ) {
-      data.result = '0' + keyContent; // '0.'
-      data.equation = uiEquation + '0' + keyContent; // eg. '5 + 0.'
+    ) return {
+      result: '0' + keyContent, // '0.'
+      equation: uiEquation + '0' + keyContent // eg. '5 + 0.'
     };
   };
 
   // Type is operator
   if (keyType === 'operator') {
-    if (previousKeyType === 'number') {
+    if (
+      previousKeyType === 'number' ||
+      previousKeyType === 'decimal'
+    ) {
       if (
         firstValue &&
         operatorAction
@@ -106,63 +106,92 @@ export const handleDisplay = (
         // Indicates multiple operators in equation - calculate result eg. '5 x 5 x'
         data.result = simpleCalculation(firstValue, operatorAction, uiResult);
       } else {
-        data.result = uiResult; // eg. '5'
-      }
-      data.equation = uiEquation + keyContent; // eg. '5x5x'
+        // Indicates first operator and incomplete equation
+        if (previousKeyType === 'number') {
+          data.result = uiResult; // eg. '5'
+        };
+
+        if (previousKeyType === 'decimal') {
+          data.result = uiResult.slice(0, -1); // eg. '5.' => '5'
+        };
+      };
+
+      // Add to the equation
+      if (previousKeyType === 'number') {
+        data.equation = uiEquation + keyContent; // eg. '5x5x'
+      };
+
+      // Remove trailing . and add to the equation
+      if (previousKeyType === 'decimal') {
+        data.equation = uiEquation.slice(0, -1) + keyContent; // eg. '5. x' => '5 x'
+      };
+
+      return data;
     };
 
-    if (previousKeyType === 'decimal') {
-      if (
-        firstValue &&
-        operatorAction
-      ) {
-        // Indicates multiple operators in equation - calculate result eg. '5 x 5. x'
-        data.result = simpleCalculation(firstValue, operatorAction, uiResult.slice(0, -1));
-      } else {
-        data.result = uiResult.slice(0, -1); // eg. '5.' => '5'
-      }
-      data.equation = uiEquation.slice(0, -1) + keyContent; // eg. '5. x' => '5 x'
-    };
+    if (
+      previousKeyType === 'operator' ||
+      previousKeyType === 'equals'
+    ) {
+      // Replace existing operator
+      if (previousKeyType === 'operator') {
+        data.equation = uiEquation.slice(0, -1) + keyContent; // eg. '5 +' => '5 x'
+      };
 
-    if (previousKeyType === 'operator') {
+      // Clearer equation - recent result + operator
+      if (previousKeyType === 'equals') {
+        data.equation = uiResult + keyContent; // eg. '25 x'
+      };
+
+      // No change to result - use current
       data.result = uiResult; // eg. '5'
-      data.equation = uiEquation.slice(0, -1) + keyContent; // eg. '5 +' => '5 x'
-    };
 
-    if (previousKeyType === 'equals') {
-      data.result = uiResult; // eg. '5'
-      data.equation = uiResult + keyContent; // eg. '25 x'
+      return data;
     };
   };
 
   // Type is equals
   if (keyType === 'equals') {
-    // If user hits 'equals' too early, we can't calculate a result
+    // If user hits 'equals' too early, we can't calculate a result so check firstValue
     if (firstValue) {
-      if (previousKeyType === 'number') {
-        data.result = simpleCalculation(firstValue, operatorAction, uiResult);
-        data.equation = uiEquation + keyContent; // eg. '5 x 5 ='
+      if (
+        previousKeyType === 'number' ||
+        previousKeyType === 'decimal' ||
+        previousKeyType === 'operator' ||
+        previousKeyType === 'equals'
+      ) {
+        if (
+          previousKeyType === 'number' ||
+          previousKeyType === 'equals'
+        ) {
+          data.equation = uiEquation + keyContent; // eg. '5 x 5 = ='
+        };
+
+        if (
+          previousKeyType === 'decimal' ||
+          previousKeyType === 'operator'
+        ) {
+          data.equation = uiEquation.slice(0, -1) + keyContent; // eg. '5 x 5.' => '5 x 5 ='
+        };
+
+        if (previousKeyType === 'equals') {
+          // Current result, 'op', recent second value eg. '5 x 3 = =' => '15 x 3'
+          data.result = simpleCalculation(uiResult, operatorAction, modifiedSecondValue);
+        } else {
+          // firstValue, 'op', Current result eg. '5 x 3'
+          data.result = simpleCalculation(firstValue, operatorAction, uiResult);
+        };
       };
 
-      if (previousKeyType === 'decimal') {
-        data.result = simpleCalculation(firstValue, operatorAction, uiResult);
-        data.equation = uiEquation.slice(0, -1) + keyContent; // eg. '5 x 5.' => '5 x 5 ='
-      };
-
-      if (previousKeyType === 'operator') {
-        data.result = simpleCalculation(firstValue, operatorAction, uiResult);
-        data.equation = uiEquation.slice(0, -1) + keyContent; // eg. '5 x 5 x' => '5 x 5 ='
-      }
-
-      if (previousKeyType === 'equals') {
-        data.result = simpleCalculation(uiResult, operatorAction, modifiedSecondValue);
-        data.equation = uiEquation + keyContent; // eg. '5 x 5 = ='
-      };
-    } else {
-      // If firstValue is not set (req. for calc)
-        data.result = uiResult;
-        data.equation = uiEquation;
+      return data;
     };
+
+    // No firstValue so cannot perform calculation - as is
+    return {
+      result: uiResult,
+      equation: uiEquation
+    };
+
   };
 
   // Type is clear - reset
@@ -175,6 +204,4 @@ export const handleDisplay = (
 
     return data;
   };
-
-  return data;
 };
