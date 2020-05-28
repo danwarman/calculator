@@ -1,8 +1,7 @@
 # Brief
 
 ## Mockup
-// TODO - Add mockup image
-<!-- ![Calculator Mockup]('/calculator-mockup.png') -->
+[Calculator Mockup](calculator-mockup.png)
 
 ## Requirements
 
