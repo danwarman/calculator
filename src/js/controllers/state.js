@@ -30,6 +30,19 @@ export const handleCalculatorState = (
   // Always set previousKeyType to that of current input
   newState.previousKeyType = keyType;
 
+  // Type is number or decimal and previous type was equals - clear most of new state
+  if (
+      (
+        keyType === 'number' ||
+        keyType === 'decimal'
+      ) &&
+      previousKeyType === 'equals'
+  ) {
+    newState.firstValue = '';
+    newState.modifiedSecondValue = '';
+    newState.operatorAction = '';
+  };
+
   // Type is operator
   if (keyType === 'operator') {
     // Set current operator action: 'divide', 'multiply', 'subtract', 'add'

@@ -55,7 +55,7 @@ export const handleDisplay = (
     // Reset
     if (previousKeyType === 'equals') return {
       result: keyContent,
-      equation: ''
+      equation: keyContent
     };
 
     // If none of the above (previousKey was number or decimal):
@@ -67,8 +67,11 @@ export const handleDisplay = (
 
   // Type is decimal
   if (keyType === 'decimal') {
-    // First input
-    if (!previousKeyType) return {
+    // First input or reset
+    if (
+      !previousKeyType ||
+      previousKeyType === 'equals'
+    ) return {
       result: '0' + keyContent, // '0.'
       equation: '0' + keyContent // '0.'
     };
@@ -84,10 +87,7 @@ export const handleDisplay = (
       equation: uiEquation + keyContent // eg. '5.'
     };
 
-    if (
-      previousKeyType === 'operator' ||
-      previousKeyType === 'equals'
-    ) return {
+    if (previousKeyType === 'operator') return {
       result: '0' + keyContent, // '0.'
       equation: uiEquation + '0' + keyContent // eg. '5 + 0.'
     };
