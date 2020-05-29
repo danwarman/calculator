@@ -2,6 +2,8 @@
 
 This is a basic calculator built with JavaScript. It has been built based on the following brief requirements and design mockup.
 
+**Preview:** [danwarman-calculator.netlify.app](https://danwarman-calculator.netlify.app/) *(Last checked: 29/05/20 16:00)*
+
 ## Stack
 * HTML
 * Sass
