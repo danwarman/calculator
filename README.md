@@ -39,7 +39,7 @@ In order to install the app, you will require `npm`.
 
 `npm` is a node package manager. You must ensure you have both `Node.js` and `npm` installed in order to install the app.
 
-### Check you have `node,js` and `npm` installed
+### Check you have `node.js` and `npm` installed
 To check if you have `node.js` installed, run the following command.
 ```
 node -v
